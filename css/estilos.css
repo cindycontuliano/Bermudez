@@ -1,0 +1,60 @@
+    .user_card {
+		height: 400px;
+		width: 350px;
+		background: linear-gradient(to top, #005bbf 20%, white);
+		opacity:.9;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		padding: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		border-radius: 5px;
+	}
+	
+	body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(to top, #c9c9c9, white);
+        background-repeat: no-repeat;
+    }
+    
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        -moz-border-radius: 37px 37px 37px 37px;
+        -webkit-border-radius: 37px 37px 37px 37px;
+    }
+    
+    .login_btn{
+        background-color: #f39c12;
+        color: white;
+        padding: 14px 20px;
+        margin: 2% 25% 2%;
+        cursor: pointer;
+        width: 50%;
+        font-size: 110%;
+    }    
+	
+	.brand_logo_container {
+
+		border-radius: 50%;
+		text-align: center;
+	}
+	
+	.brand_logo {
+		height: 150px;
+		width: 150px;
+		border-radius: 50%;
+		border: 2px solid white;
+	}
+	
+	.form_container {
+		margin-top: 100px;
+	}
+
+        
