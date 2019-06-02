@@ -195,10 +195,10 @@ alert("In Proccess");
                     
                     if( jsonPartidas[i].Nat == "Partida"){
                         arrayResumen.push(jsonPartidas[i].Resumen);
-                        arrayImpPres.push(jsonPartidas[i].ImpPres);
+                        arrayImpPres.push(jsonPartidas[i].ImpPres.replace(/,/g,""));
                     }
                 }
-            
+                
                 sessionStorage.setItem("arrayResumen", JSON.stringify(arrayResumen));
                 sessionStorage.setItem("arrayImpPres", JSON.stringify(arrayImpPres));
             });
@@ -219,13 +219,13 @@ alert("In Proccess");
  function CreateProject(){
     var aux1    = sessionStorage.getItem("arrayResumen");
     var aux2    = sessionStorage.getItem("arrayImpPres");
-
+ 
     if( aux1 === "" || aux2 === "" ){
         alert("ERROR: El archivo excel no contiene datos");
     
     }else{
-        var arrayResumen    = JSON.parse(aux1);
-        var arrayImpPres    = JSON.stringify(aux2);
+        var arrayResumen    = aux1;
+        var arrayImpPres    = aux2;
         var username        = sessionStorage.getItem("USERNAME");
             aux1            = sessionStorage.getItem("projectName");
             aux2            = aux1.substr(12);
@@ -233,12 +233,11 @@ alert("In Proccess");
         var projectName     = aux3[0];
 
         var data    = "arrayResumen=" + arrayResumen + "&arrayImpPres=" + arrayImpPres + "&username=" + username + "&projectName=" + projectName;
-        
+       
         $.post("php/createProject.php", data, function(DATA){
-            console.log(DATA);
             sessionStorage.setItem("arrayResumen", "");
             sessionStorage.setItem("arrayImpPres", "");
-  /*          
+            
             if(DATA.ERROR === true ){
                 alert(DATA.MESSAGE);
                 CloseCreateProject();
@@ -250,7 +249,6 @@ alert("In Proccess");
                 location.reload();
             
             }
-*/ 
         });
     }
  }
@@ -316,7 +314,7 @@ alert("In Proccess");
     var projectName = document.getElementById("ProjectList").value;
     
     if( projectName === ""){
-        alert("ERROR: Debe seleccionar algún proyecto de la lista");
+        alert("ERROR: Debe seleccionar alg煤n proyecto de la lista");
         return false;
         
     }else{
@@ -402,7 +400,7 @@ alert("In Proccess");
         alert("ERROR: El nombre del proyecto no puede estar vacio");
     
     }else if( username == undefined ){
-        alert("ERROR: Debes seleccionar un usuario para la asignación");
+        alert("ERROR: Debes seleccionar un usuario para la asignaci贸n");
         
     }else{
         var Variables   = "projectName=" + projectName + "&username=" + username;

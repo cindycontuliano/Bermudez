@@ -12,14 +12,9 @@
 		$username       =   $_POST["username"];
         $projectName    =   $_POST["projectName"];
         $dateToday      =   date('Y-m-d');
-        $arrayResumen   =   $_POST["arrayResumen"];
-        $arrayImpPres   =   $_POST["arrayImpPres"];
-        
-        $resumen        = json_decode($arrayResumen);
-        $DATA["0"]  =   $arrayResumen;
-        $DATA["1"]  =   $resumen[0];
-        $DATA["2"]  =   $resumen;
-/*
+        $arrayResumen   =   json_decode($_POST["arrayResumen"]);
+        $arrayImpPres   =   json_decode($_POST["arrayImpPres"]);
+
         $QUERY 	        =   $LINK -> prepare("INSERT INTO proyecto (rutPresupuesto, nombre, fechaInicio) VALUES (?, ?, ?)");
 		$QUERY	        ->	bind_param('iss', $username, $projectName, $dateToday);
 		$QUERY	        ->	execute();
@@ -36,18 +31,15 @@
             $QUERY          ->  fetch();
             $QUERY          ->  free_result();
             
-            $resumenList    =   json_decode($arrayResumen);
-            $impPresList    =   json_decode($arrayImpPres);
-            
-            $numItems       =   sizeof($resumenList);
+            $numItems       =   sizeof($arrayResumen);
             $count          =   0;
            
             while( $count < $numItems ){
-                $auxResumen =   $resumenList[$count];
-                $auxImpPres  =   $impPresList[$count];
+                $valResumen =   $arrayResumen[$count];
+                $valImpPres =   $arrayImpPres[$count];
                 
                 $QUERY 	    =   $LINK -> prepare("INSERT INTO partida (idProyecto, nombre, monto) VALUES (?, ?, ?)");
-		        $QUERY	    ->	bind_param('isi', $idProject, $auxResumen, $auxImpPres);
+		        $QUERY	    ->	bind_param('isi', $idProject, $valResumen, $valImpPres);
 		        $QUERY	    ->	execute();
 		        
 		        $count++;
@@ -64,7 +56,7 @@
 
         $QUERY  -> free_result();
 		$LINK   -> close();
-*/
+
 	}
 
     header('Content-Type: application/json');
