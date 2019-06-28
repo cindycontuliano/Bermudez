@@ -14,7 +14,7 @@
 		PREPARE THE QUERY FOR SEARCH THE LIST OF SYSTEM´S USERS 
 		*/
 		
-		$QUERY 	    =   $LINK -> prepare("SELECT rut, permisos, nombre, apellido, correo, telefono FROM usuario");
+		$QUERY 	    =   $LINK -> prepare("SELECT rut, permisos, nombre, apellido, correo, telefono FROM usuario ORDER BY nombre ASC");
         $QUERY      ->  execute();
         $QUERY      ->  store_result();
         $QUERY      ->  bind_result($rut, $permisos, $nombre, $apellido, $correo, $telefono);        

@@ -9,13 +9,15 @@
 		$DATA["MESSAGE"]    = "ERROR: El servidor no responde";
 	
 	}else{
-		$id         =   $_POST["id"];
-		$name       =   $_POST["name"];
-		$startDate  =   $_POST["startDate"];
-		$finishDate =   $_POST["finishDate"];
+		$id             =   $_POST["id"];
+		$name           =   $_POST["name"];
+		$usernameOwner  =   $_POST["usernameOwner"];
+		$usernameGrocer =   $_POST["usernameGrocer"];
+		$startDate      =   $_POST["startDate"];
+		$finishDate     =   $_POST["finishDate"];
 		
-		$QUERY 	    =   $LINK -> prepare("UPDATE proyecto SET nombre = ?, fechaInicio = ?, fechaTermino = ? WHERE id = ?");
-		$QUERY	    ->	bind_param('sssi', $name, $startDate, $finishDate, $id);
+		$QUERY 	    =   $LINK -> prepare("UPDATE proyecto SET nombre = ?, fechaInicio = ?, fechaTermino = ?, rutEncargado = ?, rutBodeguero = ? WHERE id = ?");
+		$QUERY	    ->	bind_param('sssiii', $name, $startDate, $finishDate, $usernameOwner, $usernameGrocer, $id);
 		$QUERY	    ->	execute();
         
         if( $QUERY -> affected_rows == 1 ){

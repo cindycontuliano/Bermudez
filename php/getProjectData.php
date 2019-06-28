@@ -11,11 +11,11 @@
 	}else{
 		$projectName=   $_POST["projectName"];
 
-		$QUERY 	    =   $LINK -> prepare("SELECT id, nombre, fechaInicio, fechaTermino, rutEncargado FROM proyecto WHERE nombre = ?");
+		$QUERY 	    =   $LINK -> prepare("SELECT id, nombre, fechaInicio, fechaTermino, rutEncargado, rutBodeguero FROM proyecto WHERE nombre = ?");
 		$QUERY	    ->	bind_param('s', $projectName);
 		$QUERY	    ->	execute();
 		$QUERY      ->  store_result();
-        $QUERY      ->  bind_result($id, $nombre, $fechaInicio, $fechaTermino, $rutEncargado);
+        $QUERY      ->  bind_result($id, $nombre, $fechaInicio, $fechaTermino, $rutEncargado, $rutBodeguero);
         
         if( $QUERY -> num_rows == 1 ){
             
@@ -27,6 +27,7 @@
 			$DATA["startDate"]		= $fechaInicio;
 			$DATA["finishDate"]	    = $fechaTermino;
 			$DATA["projectOwner"]   = $rutEncargado;
+			$DATA["projectGrocer"]  = $rutBodeguero;
 
 		}else{
 			$DATA["ERROR"]      = true;
