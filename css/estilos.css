@@ -2,7 +2,7 @@
 		height: 400px;
 		width: 350px;
 		background: linear-gradient(to top, #005bbf 20%, white);
-		opacity:.9;
+		
 		position: relative;
 		display: flex;
 		justify-content: center;
@@ -29,6 +29,8 @@
         -moz-border-radius: 37px 37px 37px 37px;
         -webkit-border-radius: 37px 37px 37px 37px;
     }
+    
+
     
     .login_btn{
         background-color: #f39c12;
