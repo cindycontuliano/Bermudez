@@ -1,6 +1,66 @@
 
+ function FormatDate(date){
+    date    = date.split('/');
+    date    = date[2] + ", " + date[1] + ", " + date[0];
+    
+    var newDate = new Date(date);
+    var currentDate = newDate.toISOString().slice(0,10);
+ 
+    return currentDate;
+ }
+
+ function CompareTwoDates(dateRequired){
+    
+    var today       = new Date();
+    var date        = new Date(dateRequired);
+    
+    var timeToday   = today.getTime();
+    var timeDate    = date.getTime();
+    
+    if( timeDate <= timeToday ){
+        return true;
+    }else{
+        return false;
+    }
+     
+ }
+
  function FocusOn(id){
      document.getElementById(id).focus();
+ }
+
+ function ClearTable(id){
+    var table   = document.getElementById(id);
+    
+    if( table.rows.length > 1 ){
+        var items   = table.rows.length - 1;
+        
+        for( var i=0; i<items; i++){
+            table.deleteRow(1);
+        }    
+    }
+
+ }
+ 
+ function ClearSelect(id){
+    var Select   = document.getElementById(id);
+    
+    while( Select.hasChildNodes() ){
+        Select.remove(0);
+    }
+ }
+ 
+ function NormalizeString(string){
+    var aux = string.split(" ");
+    aux[0]  = aux[0].toLowerCase();
+    
+    return aux[0].charAt(0).toUpperCase() + aux[0].slice(1);
+ }
+
+ function CloseModal(id) {
+    $(id).modal('hide');
+    $('body').children('div:nth-last-child(1)').fadeOut();
+    $('body').children('div:nth-last-child(2)').fadeOut();
  }
 
  function ParsePermission(permission){
@@ -9,11 +69,11 @@
 	        
     switch( permission ){
         case(1):
-            auxPermission   = "Administrador";
+            auxPermission   = "Administración Usuarios";
             break;
             
         case(2):
-            auxPermission   = "Obra";
+            auxPermission   = "Adminitración Obra";
             break;
             
         case(3):
@@ -21,11 +81,11 @@
             break;
        
         case(4):
-            auxPermission   = "Presupuesto";
+            auxPermission   = "Administración Presupuesto";
             break;
        
         case(5):
-            auxPermission   = "Adquisiciones";
+            auxPermission   = "Administración Adquisiciones";
             break;
         
         default:
@@ -67,16 +127,6 @@
         alert(DATA.MESSAGE);
         location.href = "index.php";
     });
- }
- 
- function OpenChangePassword(){
-    var containerPasswordForm   = document.getElementById("ChangePasswordForm");
-    containerPasswordForm.style.display = "block";
- }
-
- function CloseChangePassword(){
-    var containerPasswordForm   = document.getElementById("ChangePasswordForm");
-    containerPasswordForm.style.display = "none";
  }
  
  function ChangePassword(){
@@ -122,12 +172,10 @@
             
             if( DATA.ERROR === false ){
                 alert(DATA.MESSAGE);
-                CloseChangePassword();
                 Logout();
                 
             }else{
                 alert(DATA.MESSAGE);
-                CloseChangePassword();
             }
             
         });
@@ -152,13 +200,12 @@
     }
  }
 
-  function EventToChangeInput(id){
+ function EventToChangeInput(id){
      
     document.getElementById(id).addEventListener("change", function(event){
         var status  = isValidRut(id);
     });
  }
-
 
  function isValidName(String, Name){
     var regex   = /([a-zA-Z\ \u00C0-\u00FF]){1,30}$/;
@@ -171,8 +218,18 @@
     }
  }
  
+ function isValidNumber(value){
+    var regex   = /^([1-9]+(((\,|\.)[0-9]+)|[0-9]*)|(0(\,|\.)[0-9]+))$/;
+    
+    if( regex.test(value) ){
+        return value;
+    }else{
+        return 0;
+    }
+ }
+ 
   function isValidExcel(Filename, id){
-    var regex   = /([a-zA-Z\ \u00C0-\u00FF]){1,30}\.(xlsx|xls)/g;
+    var regex   = /([a-zA-Z0-9\ \u00C0-\u00FF]){1,30}\.(xlsx|xls)/g;
     
     if( !regex.test(Filename) ){
         alert("ERROR: El archivo no es un archivo excel");
@@ -195,12 +252,7 @@
     }
  }
  
- function DeleteWhiteSpace(String){
-    var aux    = String.split(" ");
-    return aux[0];
- }
- 
-  function ParseRut(rut){
+ function ParseRut(rut){
       var spliterRut    = rut.split("-");
       var username      = spliterRut[0].replace(/\./g,"");
       return username;

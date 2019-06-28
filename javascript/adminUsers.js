@@ -2,8 +2,10 @@
  window.onload    = LoadConfiguration;
  
  function LoadConfiguration(){
-    document.getElementById("ButtonModifyUser").addEventListener("click", function(){
-        ModifyUser();
+    document.getElementById("titlePage").innerHTML  = "Gestión Administrativa";
+    
+    $('#bttnCloseUpdateUser').click(function(){
+        $('#SearchResultsForm').modal('toggle');
     });
     
     FormatRut("addUname");
@@ -20,117 +22,6 @@
     EventToChangeInput("deleteUname");
  }
  
-
-
- function OpenAddUser(){
-    var pop  = document.getElementById("AddUserForm");
-    pop.style.display    = "block";
-    
-    FocusOn("addUname");
-    LockButtons();
- }
- 
- function OpenLoadUser(){
-    var pop  = document.getElementById("LoadUserForm");
-    pop.style.display    = "block";
-    
-    FocusOn("searchUname");
-    LockButtons();
- }
- 
- function OpenSearchResults(){
-    var pop  = document.getElementById("SearchResultsForm");
-    pop.style.display    = "block";
-    
-    LockButtons();
- }
-
- function OpenDeleteUser(){
-    var pop  = document.getElementById("DeleteUserForm");
-    pop.style.display    = "block";
-    
-    document.getElementById("deleteUname").focus();
-    LockButtons();
- }
- 
- function OpenListUsers(){
-    var pop  = document.getElementById("ListUsersForm");
-    pop.style.display    = "block";
-    
-    LockButtons();
-    GetListUsers();
- }
- 
- 
-
- function CloseAddUser(){
-    var pop  = document.getElementById("AddUserForm");
-    pop.style.display    = "none";
-    
-    document.getElementById("addUname").value       = "";
-    ClearPermissions();
-    document.getElementById("addName").value        = "";
-    document.getElementById("addLastname").value    = "";
-    document.getElementById("addEmail").value       = "";
-    document.getElementById("addPhone").value       = "";
-    
-    UnlockButtons();
- }
- 
- function CloseLoadUser(){
-    var pop  = document.getElementById("LoadUserForm");
-    pop.style.display    = "none";
-
-    document.getElementById("searchUname").value       = "";
-    UnlockButtons();
- }
- 
- function CloseSearchResults(){
-    var pop  = document.getElementById("SearchResultsForm");
-    pop.style.display    = "none";
-    
-    document.getElementById("searchUname").readOnly     = false;
-    document.getElementById("searchUname").disabled     = false;
-    
-    sessionStorage.setItem("resultUsername", "");
-    
-    ClearPermissions();
-    document.getElementById("resultName").value         = "";
-    document.getElementById("resultLastname").value     = "";
-    document.getElementById("resultEmail").value        = "";
-    document.getElementById("resultPhone").value        = "";
-    
-    UnlockButtons();
- }
- 
- function CloseDeleteUser(){
-    var pop  = document.getElementById("DeleteUserForm");
-    pop.style.display    = "none";
-    
-    document.getElementById("deleteUname").value    = "";
-    
-    UnlockButtons();
- }
- 
- function CloseSearchUsers(){
-    var pop  = document.getElementById("SearchUsersForm");
-    pop.style.display    = "none";
-    
-    UnlockButtons();
- }
- 
- function CloseListUsers(){
-    var pop  = document.getElementById("ListUsersForm");
-    pop.style.display    = "none";
-    
-    CleanListUSers();
-    UnlockButtons();
- }
- 
- 
- 
- 
-
  function AddUser(){
 
     var status      = isValidRut("addUname");
@@ -144,11 +35,11 @@
             alert("ERROR: Debes seleccionar almenos un permiso");
         
         }else{
-            var name        = document.getElementById("addName").value;
+            var name        = NormalizeString(document.getElementById("addName").value);
             status          = isValidName(name, "nombre");
             
             if( status === true ){
-                var lastname    = document.getElementById("addLastname").value;
+                var lastname    = NormalizeString(document.getElementById("addLastname").value);
                 status          = isValidName(lastname, "apellido");
                 
                 if( status  === true ){
@@ -156,15 +47,44 @@
                     status      = isValidEmail(email);
                     
                     if( status === true ){
-                        name            = DeleteWhiteSpace(name);
-                        lastname        = DeleteWhiteSpace(lastname);
                         
                         var phone       = document.getElementById("addPhone").value;
                         var Variables   = "username=" + username + "&permissions=" + permissions + "&name=" + name + "&lastname=" + lastname + "&email=" + email + "&phone=" + phone;
                         
                         $.post("php/addUser.php", Variables, function(DATA){
-                            alert(DATA.MESSAGE);
-                            CloseAddUser();
+                            
+                            if( DATA.ERROR  === true ){
+                                alert(DATA.MESSAGE);    
+
+                                $('#addUname').val('');
+                                $("#AdminType").prop("checked", false);
+                                $("#BuildsiteType").prop("checked", false);
+                                $("#SupervisorType").prop("checked", false);
+                                $("#BudgetType").prop("checked", false);
+                                $("#AcquisitionType").prop("checked", false);
+                                $('#addName').val('');
+                                $('#addLastname').val('');
+                                $('#addEmail').val('');
+                                $('#addPhone').val('');
+
+                            }else{
+                                
+                                alert(DATA.MESSAGE);
+                                
+                                CloseModal('#AddUserForm');
+                                
+                                $('#addUname').val('');
+                                $("#AdminType").prop("checked", false);
+                                $("#BuildsiteType").prop("checked", false);
+                                $("#SupervisorType").prop("checked", false);
+                                $("#BudgetType").prop("checked", false);
+                                $("#AcquisitionType").prop("checked", false);
+                                $('#addName').val('');
+                                $('#addLastname').val('');
+                                $('#addEmail').val('');
+                                $('#addPhone').val('');
+                                
+                            }
                         });
                     }
                 }
@@ -244,7 +164,7 @@
  }
  
  function GetPermissions(){
-       var permissions     = "";
+    var permissions     = "";
     var error           = true;
     
     var AdminType       = document.getElementById("AdminPermission").checked;
@@ -308,53 +228,54 @@
         
         $.post("php/loadUser.php", Variables, function(DATA){
             if( DATA.ERROR === false ){
-                CloseLoadUser();
-                OpenSearchResults();
                 
-                document.getElementById("searchUname").readOnly     = true;
-                document.getElementById("searchUname").disabled     = true;
+                $('#searchUname').val('');
+                $('#usernamePrevious').val(rut);
+                
+                $('#usernamePrevious').attr('readonly', true);
+                $('#usernamePrevious').attr('disabled', true);
                 
                 SetPermissions(DATA.permisos.split(""));
-                document.getElementById("usernamePrevious").value   = rut;
-                document.getElementById("resultName").value         = DATA.nombre;
-                document.getElementById("resultLastname").value     = DATA.apellido;
-                document.getElementById("resultEmail").value        = DATA.correo;
-                document.getElementById("resultPhone").value        = DATA.telefono;
+                
+                $('#resultName').val(DATA.nombre);
+                $('#resultLastname').val(DATA.apellido);
+                $('#resultEmail').val(DATA.correo);
+                $('#resultPhone').val(DATA.telefono);
+                
+                $('#SearchResultsForm').modal('show');
                 
                 sessionStorage.setItem("idUsername", DATA.id);
-            
             }else{
                 alert(DATA.MESSAGE);
-                CloseSearchUser();
+                $('#searchUname').val('');
             }
         });
     }
  }
  
  function SetPermissions(permissions){
-
     if( permissions[0] == "1" ){
-        document.getElementById("AdminPermission").checked   = true;
+        $("#AdminPermission").prop("checked", true);
     }
     
     if( permissions[1] == "2" ){
-        document.getElementById("BuildsitePermission").checked   = true;
+        $("#BuildsitePermission").prop("checked", true);
     }
     
     if( permissions[2] == "3" ){
-        document.getElementById("SupervisorPermission").checked   = true;
+        $("#SupervisorPermission").prop("checked", true);
     }
     
     if( permissions[3] == "4" ){
-        document.getElementById("BudgetPermission").checked   = true;
+        $("#BudgetPermission").prop("checked", true);
     }
     
     if( permissions[4] == "5" ){
-        document.getElementById("AcquisitionPermission").checked   = true;
+        $("#AcquisitionPermission").prop("checked", true);
     }
  }
  
- function ModifyUser(){
+ function UpdateUser(){
     var id          = sessionStorage.getItem("idUsername");
     var status      = isValidRut("usernamePrevious");
     
@@ -368,11 +289,11 @@
         
         }else{
             
-            var name        = document.getElementById("resultName").value;
+            var name        = NormalizeString(document.getElementById("resultName").value);
             status          = isValidName(name, "nombre");
             
             if( status === true ){
-                var lastname    = document.getElementById("resultLastname").value;
+                var lastname    = NormalizeString(document.getElementById("resultLastname").value);
                 status          = isValidName(lastname, "apellido");
                 
                 if( status  === true ){
@@ -380,15 +301,20 @@
                     status      = isValidEmail(email);
                     
                     if( status === true ){
-                        name            = DeleteWhiteSpace(name);
-                        lastname        = DeleteWhiteSpace(lastname);
                         
                         var phone       = document.getElementById("resultPhone").value;
                         var Variables   = "id=" + id + "&username=" + username + "&permissions=" + permissions + "&name=" + name + "&lastname=" + lastname + "&email=" + email + "&phone=" + phone;
             
-                        $.post("php/modifyUser.php", Variables, function(DATA){
-                            alert(DATA.MESSAGE);
-                            CloseSearchResults();
+                        $.post("php/updateUser.php", Variables, function(DATA){
+                            
+                            if( DATA.ERROR === false ){
+                                alert(DATA.MESSAGE);
+                                
+                                CloseModal('#SearchResultsForm');
+
+                            }else{
+                                alert(DATA.MESSAGE);
+                            }
                         });
                     }
                 }
@@ -407,8 +333,18 @@
         var Variables   = "username=" + username;
         
         $.post("php/deleteUser.php", Variables, function(DATA){
-            alert(DATA.MESSAGE);
-            CloseDeleteUser();
+            
+            if( DATA.ERROR === false ){
+                alert(DATA.MESSAGE);
+            
+                CloseModal('#DeleteUserForm');
+                $('#deleteUname').val('');
+            
+            }else{
+                alert(DATA.MESSAGE);
+                $('#deleteUname').val('');
+            }
+            
         });        
     }
 
@@ -432,7 +368,10 @@
  }
  
  function GetListUsers(){
-     $.post("php/listUsers.php", "",function(DATA){
+    
+    ClearTable("ListUsers");
+     
+    $.post("php/listUsers.php", "",function(DATA){
         
         // Create the Table´s Body
 	    var table       = document.getElementById("ListUsers");
@@ -446,6 +385,7 @@
 	        var row             = document.createElement("tr");
 	 
 	 	    // Here is created every cell
+	 	    var numUserCell     = document.createElement("td");
 	 	    var usernameCell    = document.createElement("td");
 	 	    var typeCell	    = document.createElement("td");
 	        var nameCell	    = document.createElement("td");
@@ -454,6 +394,7 @@
 	        var phoneCell		= document.createElement("td");
 	  
 	        // Here is storaged the content into a node
+	        var numUser         = document.createTextNode( i + 1 );
 	        var username		= document.createTextNode( GenerateRut(DATA[i].username) );
 		    var name 			= document.createTextNode( DATA[i].name );
 		    var lastname 		= document.createTextNode( DATA[i].lastname );
@@ -461,6 +402,7 @@
 		    var phone 			= document.createTextNode( DATA[i].phone );
 		
 	        // Here is inserted the content into the cells
+	        numUserCell.appendChild(numUser);
     	    usernameCell.appendChild(username);
     	    typeCell.appendChild( GeneratePermissionsList( DATA[i].permissions ) );
     	    nameCell.appendChild(name);
@@ -469,6 +411,7 @@
     	    phoneCell.appendChild(phone);
 	    
 	        // Here is inserted the cells into a row
+	        row.appendChild(numUserCell);
 	        row.appendChild(usernameCell);
 	        row.appendChild(typeCell);
 	        row.appendChild(nameCell);
@@ -482,31 +425,7 @@
 	 
 	  // Here is inserted the body´s table into the table
 	  table.appendChild(bodyTable);
-
-	  // Here is modificated the table´s attributes "border", and set it in 2px.
-	  table.setAttribute("border", "2");
-
      });
- }
- 
- function CleanListUSers(){
-    var count       = document.getElementById("ListUsers").rows.length;
-    
-    for( var i = 0; i < count - 1; i++){
-        document.getElementById("ListUsers").deleteRow(1);
-    }
- }
- 
- function LockButtons(){
-    document.getElementById("OpenAddUser").disabled     = true;
-    document.getElementById("OpenModifyUser").disabled  = true;
-    document.getElementById("OpenDeleteUser").disabled  = true;
-    document.getElementById("OpenListUsers").disabled   = true;
- }
- 
- function UnlockButtons(){
-    document.getElementById("OpenAddUser").disabled     = false;
-    document.getElementById("OpenModifyUser").disabled  = false;
-    document.getElementById("OpenDeleteUser").disabled  = false;
-    document.getElementById("OpenListUsers").disabled   = false;
+     
+     $('#ListUsersForm').modal('show');
  }

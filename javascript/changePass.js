@@ -2,9 +2,15 @@
  window.onload  = StartupConfig;
  
  function StartupConfig(){
+    HideDropdown();
     FormatRut("uname");
     EventToPressEnter("ChangePass", "");
     FocusOn("uname");
+ }
+
+ function HideDropdown(){
+    var element         = document.getElementById("containerDropdown");
+    element.className   = "d-none";
  }
 
  function ChangePass(){
