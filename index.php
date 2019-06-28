@@ -15,9 +15,7 @@
   </head>
   
   <body>
-
-        
-   
+    
     <header>
         
         <?php 
@@ -149,7 +147,7 @@
         }
         .user_card {
             margin-top:150px;
-            background: linear-gradient(to top, #005bbf 20%, white);
+            opacity:.9;
         }
     
 

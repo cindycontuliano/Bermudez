@@ -26,201 +26,314 @@
   
     <body>
 
-        <div class="container">
-            <div class="containtElement">
-                <label for="OpenAddUser"><b>Agregar Usuario</b></label>
-                <button id="OpenAddUser" onclick="OpenAddUser()"></button>
-            </div>
+        <div class="container-fluid h-100">
+            <div class="row">
+                <div class="col-3 col-md-3">
+                    <div class="d-flex justify-content-center">
+                        <label for="OpenAddUser"><b>Agregar Usuario</b></label>
+                        <button class="btn btn-default btn-circle" id="OpenAddUser" data-toggle="modal" data-target="#AddUserForm">
+                            <img class="brand_logo" alt="Logo" src="img/addUser.png">
+                        </button>
+                    </div>
+                </div>
+               
+			    <div class="col-3 col-md-3">
+			        <div class="d-flex justify-content-center">
+                        <label for="OpenModifyUser"><b>Modificar Datos</b></label>
+                        <button class="btn btn-default btn-circle" id="OpenModifyUser" data-toggle="modal" data-target="#LoadUserForm">
+                            <img class="brand_logo" alt="Logo" src="img/updateUser.png">
+                        </button>
+                    </div>
+                </div>
                 
-            <div class="containtElement">
-                <label for="OpenModifyUser"><b>Modificar Datos</b></label>
-                <button id="OpenModifyUser" onclick="OpenLoadUser()"></button>
-            </div>
-            
-            <div class="containtElement">
-                <label for="OpenDeleteUser"><b>Eliminar Usuario</b></label>
-                <button id="OpenDeleteUser" onclick="OpenDeleteUser()"></button>
-            </div>
+			    <div class="col-3 col-md-3">
+                    <div class="d-flex justify-content-center brand_logo_container">
+                        <label for="OpenDeleteUser"><b>Eliminar Usuario</b></label>
+                        <button class="btn btn-default btn-circle" id="OpenDeleteUser" data-toggle="modal" data-target="#DeleteUserForm">
+                            <img class="brand_logo" alt="Logo" src="img/deleteUser.png">
+                        </button>
+                    </div>
+                </div>
                 
-            <div class="containtElement">
-                <label for="OpenListUsers"><b>Consultar Usuarios</b></label>
-                <button id="OpenListUsers" onclick="OpenListUsers()"></button>
+                <div class="col-3 col-md-3">
+                    <div class="d-flex justify-content-center brand_logo_container">
+                        <label for="OpenListUsers"><b>Lista de Usuarios</b></label>
+                        <button class="btn btn-default btn-circle" id="OpenListUsers" onclick="GetListUsers()">
+                            <img class="brand_logo" alt="Logo" src="img/userList.png">
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         
+    
+<!------------------------------ ADD A NEW USER FORM ---------------------------------------->
+        <!-- Modal -->
+        <div id="AddUserForm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
         
-<!-- HIDDEN CODES -->
+            <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ingrese Datos del Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="addUname">Rut</label>
+                            <input id="addUname" type="text" class="form-control" placeholder="Ingrese Rut">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Permiso(s)</label>
+                            <div class="custom-control custom-checkbox">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="custom-control-input" id="AdminType">
+                                        <label class="custom-control-label" for="AdminType">Administración Usuarios</label>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="custom-control-input" id="BuildsiteType">
+                                        <label class="custom-control-label" for="BuildsiteType">Administración Obra</label>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="custom-control-input" id="SupervisorType">
+                                        <label class="custom-control-label" for="SupervisorType">Administración Supervisor</label>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="custom-control-input" id="BudgetType">
+                                        <label class="custom-control-label" for="BudgetType">Administración Presupuesto</label>
+                                    </li>
+                                    
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="custom-control-input" id="AcquisitionType">
+                                        <label class="custom-control-label" for="AcquisitionType">Administración Adquisiciones</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="addName">Nombre</label>
+                            <input id="addName" type="text" class="form-control" placeholder="Ingrese Nombre">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="addLastname">Apellido</label>
+                            <input id="addLastname" type="text" class="form-control" placeholder="Ingrese Apellido">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="addEmail">Correo</label>
+                            <input id="addEmail" type="text" class="form-control" placeholder="Ingrese Correo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="addPhone">Teléfono (Opcional)</label>
+                            <input id="addPhone" type="text" class="form-control" placeholder="Ingrese Teléfono">
+                        </div>
+                    </div>
+              
+                    <!-- Modal footer -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" onclick="AddUser()">Agregar Usuario</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!------------------------------ SEARCH A USER ---------------------------------------->
+        <!-- Modal -->
+        <div id="LoadUserForm" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+            <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ingrese Rut del Usuario a Editar</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="searchUname">Rut</label>
+                            <input id="searchUname" type="text" class="form-control" placeholder="Ingrese Rut">
+                        </div>
+                        
+            <!------------------------------ EDIT USER´S DATAS ---------------------------------------->
+                        <!-- Modal -->
+                        <div id="SearchResultsForm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                        
+                            <!-- Modal content-->
+                                <div class="modal-content">
+                                    
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Resultados de la Búsqueda</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                              
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="usernamePrevious">Rut</label>
+                                            <input id="usernamePrevious" type="text" class="form-control" placeholder="">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label>Permiso(s)</label>
+                                            <div class="custom-control custom-checkbox">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="custom-control-input" id="AdminPermission">
+                                                        <label class="custom-control-label" for="AdminPermission">Administración Usuarios</label>
+                                                    </li>
+                                                    
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="custom-control-input" id="BuildsitePermission">
+                                                        <label class="custom-control-label" for="BuildsitePermission">Administración Obra</label>
+                                                    </li>
+                                                    
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="custom-control-input" id="SupervisorPermission">
+                                                        <label class="custom-control-label" for="SupervisorPermission">Administración Supervisor</label>
+                                                    </li>
+                                                    
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="custom-control-input" id="BudgetPermission">
+                                                        <label class="custom-control-label" for="BudgetPermission">Administración Presupuesto</label>
+                                                    </li>
+                                                    
+                                                    <li class="list-group-item">
+                                                        <input type="checkbox" class="custom-control-input" id="AcquisitionPermission">
+                                                        <label class="custom-control-label" for="AcquisitionPermission">Administración Adquisiciones</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="resultName">Nombre</label>
+                                            <input id="resultName" type="text" class="form-control" placeholder="">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="resultLastname">Apellido</label>
+                                            <input id="resultLastname" type="text" class="form-control" placeholder="">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="resultEmail">Correo</label>
+                                            <input id="resultEmail" type="text" class="form-control" placeholder="">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="resultPhone">Teléfono (Opcional)</label>
+                                            <input id="resultPhone" type="text" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                              
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="button" class="btn btn-primary" onclick="UpdateUser()">Confirmar Cambios</button>
+                                        <button type="button" class="btn btn-danger" id="bttnCloseUpdateUser">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              
+                    <!-- Modal footer -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" onclick="LoadUser()">Buscar Usuario</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+<!------------------------------ DELETE A USER ---------------------------------------->
+        <!-- Modal -->
+        <div id="DeleteUserForm" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+            <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ingrese Rut del Usuario a Eliminar</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="deleteUname">Rut</label>
+                            <input id="deleteUname" type="text" class="form-control" placeholder="Ingrese Rut">
+                        </div>
+                    </div>
+              
+                    <!-- Modal footer -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" onclick="DeleteUser()">Eliminar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
 
-    <!-- ADD A NEW USER-->
-        <div id="AddUserForm">
-            <center>
-                <h2>Ingrese Datos del Usuario</h2>
-            </center>
+ <!------------------------------ TABLE WITH THE SYSTEM´S USERS ---------------------------------------->       
+        <div id="ListUsersForm" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Usuarios del Sistema</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
             
-            <div class="internalContainer">
-                <label for="addUname"><b>Rut</b></label>
-                <input type="text" id="addUname">
-                
-                <label for="addType"><b>Tipo</b></label>
-                <div>
-                    <label for="AdminType">Administrador</label>
-                    <input id="AdminType" type="checkbox">
-                    
-                    <label for="BuildsiteType">Obra</label>
-                    <input id="BuildsiteType" type="checkbox">
-                    
-                    <label for="SupervisorType">Supervisor</label>
-                    <input id="SupervisorType" type="checkbox">
-                    
-                    <label for="BudgetType">Presupuesto</label>
-                    <input id="BudgetType" type="checkbox">
-                    
-                    <label for="AcquisitionType">Adquisiciones</label>
-                    <input id="AcquisitionType" type="checkbox">
-				</div>
-                
-                <label for="addName"><b>Nombre</b></label>
-                <input type="text" id="addName">
-                
-                <label for="addLastname"><b>Apellido</b></label>
-                <input type="text" id="addLastname">
-                
-                <label for="addEmail"><b>Correo</b></label>
-                <input type="text" id="addEmail">
-                
-                <label for="addPhone"><b>Teléfono (Opcional)</b></label>
-                <input type="text" id="addPhone">
-            </div>
-            
-            <center>
-                <div>
-                    <button onclick="AddUser()">Aceptar</button>
-                    <button onclick="CloseAddUser()">Cancelar</button>
-                </div>
-            </center>
-        </div>
-    <!-- END ADD A NEW USER -->
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="table-reponsive-xl">
+                            <table class="table" id="ListUsers">
+                                
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°</th>
+            						<th scope="col">Rut</th>
+            						<th scope="col">Permisos</th>
+            						<th scope="col">Nombre</th>
+            						<th scope="col">Apellido</th>
+            						<th scope="col">Correo</th>
+            						<th scope="col">Teléfono</th>
+                                </tr>
+                            </thead>
+                            
+                            </table>
+                        </div>
+                    </div>
         
-        
-    <!-- SEARCH A USER -->
-        <div id="LoadUserForm">
-            <center>
-                <h2>Ingrese Rut</h2>
-            </center>
-            
-            <div class="internalContainer">
-                <label for="searchUname"><b>Rut</b></label>
-                <input type="text" id="searchUname">
+                    <!-- Modal footer -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
             </div>
-            
-            <center>
-                <div>
-                    <button onclick="LoadUser()">Aceptar</button>
-                    <button onclick="CloseLoadUser()">Cancelar</button>
-                </div>
-            </center>
         </div>
-    <!-- END SEARCH A USER -->
-    
-    
-    <!-- RESULT OF A SEARCH -->   
-        <div id="SearchResultsForm">
-            <center>
-                <h2>Resultados de la búsqueda</h2>
-            </center>
-           
-            <div class="internalContainer">
-                <label for="usernamePrevious"><b>Rut Usuario</b></label>
-                <input id="usernamePrevious" type="text">
-                
-                <label for="resultType"><b>Tipo</b></label>
-                <div>
-                    <label for="AdminPermission">Administrador</label>
-                    <input id="AdminPermission" type="checkbox">
-                    
-                    <label for="BuildsitePermission">Obra</label>
-                    <input id="BuildsitePermission" type="checkbox">
-                    
-                    <label for="SupervisorPermission">Supervisor</label>
-                    <input id="SupervisorPermission" type="checkbox">
-                    
-                    <label for="BudgetPermission">Presupuesto</label>
-                    <input id="BudgetPermission" type="checkbox">
-                    
-                    <label for="AcquisitionPermission">Adquisiciones</label>
-                    <input id="AcquisitionPermission" type="checkbox">
-				</div>
-                
-                <label for="resultName"><b>Nombre</b></label>
-                <input type="text" id="resultName">
-                
-                <label for="resultLastname"><b>Apellido</b></label>
-                <input type="text" id="resultLastname">
-                
-                <label for="resultEmail"><b>Correo</b></label>
-                <input type="text" id="resultEmail">
-                
-                <label for="resultPhone"><b>Teléfono (Opcional)</b></label>
-                <input type="text" id="resultPhone">
-            </div>
-            
-            <center>
-                <div>
-                    <button id="ButtonModifyUser">Aceptar</button>
-                    <button onclick="CloseSearchResults()">Cancelar</button>
-                </div>
-            </center>
-        </div>
-     <!-- END RESULT OF A SEARCH -->
-     
-     
-        
-    <!-- DELETE A USER-->
-        <div id="DeleteUserForm">
-            <center>
-                <h2>Ingrese Rut a Eliminar</h2>
-            </center>
-            
-            <div class="internalContainer">
-                <label for="deleteUname"><b>Rut</b></label>
-                <input type="text" id="deleteUname">
-            </div>
-            
-            <center>
-                <div>
-                    <button onclick="DeleteUser()">Aceptar</button>
-                    <button onclick="CloseDeleteUser()">Cancelar</button>
-                </div>
-            </center>
-        </div>
-    <!-- END DELETE A USER-->
-    
-    
-    <!-- LIST OF SYSTEM´S USERS -->
-        <center>
-            <div id="ListUsersForm">
-                <h2>Lista de Usuarios</h2>
-                
-                <div class="InternalListUsers">
-                    <table id="ListUsers">
-    					<tr>
-    						<th>Rut</th>
-    						<th>Permisos</th>
-    						<th>Nombre</th>
-    						<th>Apellido</th>
-    						<th>Correo</th>
-    						<th>Teléfono</th>
-    					</tr>
-    				</table>
-                </div>
-                
-                <button onclick="CloseListUsers()">Aceptar</button>
-            </div> 
-        </center>
-       
-    
-    
-    <!-- END LIST -->
     
     </body>
   
@@ -229,151 +342,10 @@
             include 'plantillas/footer.php';
         ?>  
     </foot>
- 
-  <style type="text/css">
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-    }
     
-    input, select {
-        width: 100%;
-        padding: 12px 20px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        text-align: left;
-        margin-bottom: 3%;
-    }
-    
-    Label {
-        display: inline-block;
-	    width: 100px;
-    }
-    
-    button:hover, .button:hover {
-        opacity: 0.8;
-    }
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 80%;
-        background: white;
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    .container {
-        height: 50%;
-        margin-top: 5%;
-        margin-right: 20%;
-        margin-left: 20%;
-        padding-right: 5%;
-        padding-left: 5%;
-    }
-    
-    .containtElement {
-        margin-right: 5%;
-        width: 120px;
-        float: left;
-    }
-    
-    .internalContainer{
-        border: 1px solid red;
-        margin-left: 5%;
-        margin-right: 5%;
-        margin-bottom: 5%;
-    }
-    
-    .internalListUsers {
-        padding-top: 2%;
-        padding-bottom:5%;
-        margin-bottom: 5%;
-        height: 150px;
-        border: 1px solid red;
-        border-collapse: collapse;
-        overflow: auto;
-    }
-    
-    #AddUserForm, #SearchResultsForm {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: none;
-        width: 500px;
-        margin-left: 30%;
-        padding-bottom: 2%;
-        background: white;
-        border: 1px solid blue;
-        height: 600px;
-        overflow: auto;
-    }
-    
-    #LoadUserForm, #DeleteUserForm {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: none;
-        width: 500px;
-        margin-left: 30%;
-        padding-bottom: 2%;
-        background: white;
-        border: 1px solid blue;
-    }
-    
-    #ListUsersForm {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: none;
-        width: 80%;
-        margin-left: 10%;
-        margin-right: 10%;
-        padding-bottom: 2%;
-        background: white;
-        border: 1px solid blue;
-    }
-    
-    #OpenAddUser {
-        background-image:url(img/addUser.png);
-  	    background-repeat:no-repeat;
-  	    height:120px;
-  	    width:120px;
-  	    background-position:center;
-    }
-    
-    #OpenModifyUser {
-        background-image:url(img/modifyUser.png);
-  	    background-repeat:no-repeat;
-  	    height:120px;
-  	    width:120px;
-  	    background-position:center;
-    }
-    
-    #OpenDeleteUser {
-        background-image:url(img/deleteUser.png);
-  	    background-repeat:no-repeat;
-  	    height:120px;
-  	    width:120px;
-  	    background-position:center;
-    }
-    
-    #OpenListUsers {
-        background-image:url(img/searchUser.png);
-  	    background-repeat:no-repeat;
-  	    height:120px;
-  	    width:120px;
-  	    background-position:center;
-    }
-    
-  </style>
- 
- 
+    <style type="css/text">
+        select{
+            width: 300px;
+        }
+    </style>
 </html>
